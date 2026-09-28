@@ -3,7 +3,7 @@
 
 #include <set>
 #include <string>
-
+//#include "AccessControlSystem.h" in cpp file
 class Incident;
 class ResponseCoordinator;
 
@@ -60,9 +60,11 @@ public:
     bool lockArea(const std::string& area);
     bool unlockArea(const std::string& area);
     bool isLocked(const std::string& area) const { return locked_.count(area) > 0; }
-
+    //lets the Facade/adapter attach itself to this unit, the same way setCoordinator() already works for the Mediator
+    void setAccessControl(AccessControlSystem& access) { access_ = &access; }
 private:
     std::set<std::string> locked_;
+    AccessControlSystem* access_ = nullptr; //non-owning, may be null if no adapter is attached yet
 };
 
 #endif
