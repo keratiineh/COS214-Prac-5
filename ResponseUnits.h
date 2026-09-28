@@ -3,9 +3,10 @@
 
 #include <set>
 #include <string>
-//#include "AccessControlSystem.h" in cpp file
+
 class Incident;
 class ResponseCoordinator;
+class AccessControlSystem;
 
 //Colleague base
 //Knows only the ResponseCoordinator interface, never other units.
@@ -59,7 +60,7 @@ public:
     bool dispatch(Incident& incident) override;
     bool lockArea(const std::string& area);
     bool unlockArea(const std::string& area);
-    bool isLocked(const std::string& area) const { return locked_.count(area) > 0; }
+    bool isLocked(const std::string& area) const;
     //lets the Facade/adapter attach itself to this unit, the same way setCoordinator() already works for the Mediator
     void setAccessControl(AccessControlSystem& access) { access_ = &access; }
 private:
