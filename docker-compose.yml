@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  campusguard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campusguard_app
+    stdin_open: true
+    tty: true
+    command: ./campus_guard
