@@ -23,7 +23,7 @@ CampusCoordinator::~CampusCoordinator() {
 void CampusCoordinator::threatConfirmed(ResponseUnit& reporter, Incident& incident) {
     log(reporter.name() + " confirmed a threat at " + incident.location() + ". Cordoning the area.");
     incident.setStatus(IncidentStatus::Escalated);
-    facilities_.lockArea(incident.location());
+    if (!facilities_.isLocked(incident.location())) facilities_.lockArea(incident.location());
     if (incident.severity() >= 3) medical_.stageNear(incident.location());
 }
 
@@ -49,6 +49,17 @@ void CampusCoordinator::incidentContained(ResponseUnit& reporter, Incident& inci
     incident.setStatus(IncidentStatus::Contained);
     if (facilities_.isLocked(incident.location())) facilities_.unlockArea(incident.location());
     comms_.broadcast(AlertLevel::Info, incident.location(), "All clear.");
+}
+
+#include "EmergencyStrategy.h"
+
+bool CampusCoordinator::executeStrategy(Incident& incident) {
+    if (!strategy_) {
+        log("No emergency strategy assigned for " + incident.label());
+        return false;
+    }
+    log("Applying response protocol strategy: [" + strategy_->name() + "] for " + incident.label());
+    return strategy_->executeProtocol(incident, facilities_, medical_, security_, comms_);
 }
 
 void CampusCoordinator::log(const std::string& message) const {

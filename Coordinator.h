@@ -21,6 +21,8 @@ public:
     virtual void incidentContained(ResponseUnit& reporter, Incident& incident) = 0;
 };
 
+class EmergencyStrategy;
+
 //Concrete mediator
 //Holds non-owning references; attaches itself to the
 //units on construction and detaches on destruction.
@@ -38,6 +40,10 @@ public:
     void areaAccessChanged(ResponseUnit& reporter, const std::string& area, bool locked) override;
     void incidentContained(ResponseUnit& reporter, Incident& incident) override;
 
+    void setStrategy(EmergencyStrategy* strategy) { strategy_ = strategy; }
+    EmergencyStrategy* strategy() const { return strategy_; }
+    bool executeStrategy(Incident& incident);
+
 private:
     void log(const std::string& message) const;
 
@@ -45,6 +51,7 @@ private:
     MedicalTeam& medical_;
     FacilitiesTeam& facilities_;
     CommsCentre& comms_;
+    EmergencyStrategy* strategy_ = nullptr; // non-owning
 };
 
 #endif
