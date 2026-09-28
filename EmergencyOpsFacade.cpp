@@ -8,7 +8,7 @@
 #include <memory>
 
 EmergencyOpsFacade::EmergencyOpsFacade(OperatorConsole& console, SecurityTeam& security,
-                                        FacilitiesTeam& facilities, CommsCentre& comms)
+                                       FacilitiesTeam& facilities, CommsCentre& comms)
     : console(console), security(security), facilities(facilities), comms(comms) {}
 
 bool EmergencyOpsFacade::lockdownBuilding(Incident& incident, const std::string& area) {
