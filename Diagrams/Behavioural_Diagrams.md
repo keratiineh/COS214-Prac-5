@@ -10,13 +10,13 @@ This state diagram depicts how an `Incident` transitions across its operational 
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Reported: IncidentRegistry::report()
-    
-    Reported --> Dispatched: ResponseUnit::assign()\n[notifyObservers: Dispatched]
-    
-    Dispatched --> Escalated: CampusCoordinator::threatConfirmed()\n[notifyObservers: Escalated]
-    
-    Escalated --> Contained: CampusCoordinator::incidentContained()\n[notifyObservers: Contained]
+        [*] --> Reported: IncidentRegistry.report()
+
+    Reported --> Dispatched: ResponseUnit.assign()\n[notifyObservers: Dispatched]
+
+    Dispatched --> Escalated: CampusCoordinator.threatConfirmed()\n[notifyObservers: Escalated]
+
+    Escalated --> Contained: CampusCoordinator.incidentContained()\n[notifyObservers: Contained]
     
     Dispatched --> Contained: Security / Hazard resolved\n[notifyObservers: Contained]
     
